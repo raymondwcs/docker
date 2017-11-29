@@ -1,6 +1,8 @@
 # COMPS381F - Container Virtualization Using Docker [Reference]
+## Introduction
+This tutorial shows you how to run a server using an old version of Node (version 4) using container.  
 
-1. Run `server.js`. Make a note about which version of Node.js is being used.
+1. Run `server.js`. Make a note about which version of Node is being used.
 3. Register at [Docker Hub](https://hub.docker.com) to obtain your own Docker User ID (`your-docker-id`).
 3. Build a *docker image*
    ```
@@ -19,7 +21,7 @@
    docker ps
    ```
 7. Run the `server.js` in your container.  Go to `localhost:8099`
-8. Which version of Node.js is being used?
+8. Which version of Node is being used now?
 9. Share your container image by uploading it to Docker Hub
    ```
    docker login
