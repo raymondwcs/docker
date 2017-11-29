@@ -4,7 +4,7 @@ This tutorial shows you how to run a server using an old version of Node (versio
 
 ## Steps
 1. Run `server.js`. Make a note about which version of Node is being used.
-3. Register at [Docker Hub](https://hub.docker.com) to obtain your own Docker User ID (`your-docker-id`).
+3. Register at [Docker Hub](https://hub.docker.com) to obtain your Docker User ID (`your-docker-id`).
 3. Build a *docker image*
    ```
    docker build -t "your-docker-id/oldnodejs"
