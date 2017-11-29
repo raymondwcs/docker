@@ -7,7 +7,7 @@ This tutorial shows you how to run a server, which uses an older version of Node
 3. Register at [Docker Hub](https://hub.docker.com) to obtain your Docker User ID (`your-docker-id`).
 3. Build a *docker image*
    ```
-   docker build -t "your-docker-id/oldnodejs"
+   docker build -t "your-docker-id/oldnodejs" .
    ```
 4. Verify that docker image has been successfully created.
    ```
