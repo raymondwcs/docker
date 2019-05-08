@@ -1,6 +1,6 @@
 # COMPS381F - Container Virtualization Using Docker [Reference]
 ## Introduction
-This tutorial shows you how to run a server, which uses an older version of Node (version 4), using container virtualization.  
+This tutorial shows you how to run a server, which requires an older version of Node (version 4), using container virtualization.  
 
 ## Steps
 1. Run `server.js`. Make a note of the version of Node that is being used.
