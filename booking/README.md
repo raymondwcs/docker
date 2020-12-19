@@ -1,7 +1,7 @@
 # Docker Compose
 [Docker Compose](https://docs.docker.com/compose/) is a tool for defining and running multi-container Docker applications. With Compose, you use a `YAML` file to configure your application’s services. Then, with a single command, you create and start all the services from your configuration.
 
-This tutorial demonstates how to deploy a multi-container app written using Express.js, Passport.js and MongoDB.  Two containers are used to deploy this app.  The first container bundles everything needed to run the app.  The second container runs a MongoDB server. 
+This tutorial demonstrates how to deploy a multi-container app written using Express.js, Passport.js and MongoDB.  Two containers are used to deploy this app.  The first container bundles everything needed to run the app.  The second container provides a MongoDB server for the app running in the first container. 
 
 ## Preparation
 1. [Install docker-compose](https://docs.docker.com/compose/install/)
