@@ -13,7 +13,7 @@ This tutorial demonstates how to deploy a two containers app written using Expre
 ```
 docker-compose up -d
 ```
-2. Goto `localhost:8099` in your web browser to run the app.
+2. Run the app by opening `localhost:8099` in your web browser.
 3. Shutdown the containers when you're done.
 ```
 docker-compose down
