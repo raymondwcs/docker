@@ -8,7 +8,7 @@ This tutorial demonstrates how to deploy a multi-container app written using Exp
 1. Replace the values of `facebookAuth.clientID` and `facebookAuth.clientSecret` in [server.js](server.js) with a valid [Facebook App ID and App Secret](https://github.com/raymondwcs/oauth).
 
 ## Steps
-1. Run the following command to build and run two docker container images.
+1. Run the following command to build and run two docker container images (`booking_app` and `mongo`).
 ```
 docker-compose up -d
 ```
