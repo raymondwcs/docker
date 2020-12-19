@@ -239,7 +239,7 @@ app.post('/create', isLoggedIn, (req,res) => {
                 db.collection('bookings').insertOne(newDoc,(err,results) => {
                     assert.equal(err,null);
                     client.close()
-                    res.status(200).end()
+                    res.redirect('/')
                 })
             });
         } else {
