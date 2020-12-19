@@ -5,7 +5,7 @@ This tutorial demonstates how to deploy a server-side app using two containers. 
 
 ## Preparation
 1. [Install docker-compose](https://docs.docker.com/compose/install/)
-1. Replace the values of `facebookAuth.clientID` and `facebookAuth.clientSecret` in[server.js](server.js) with a valid [Facebook App ID and App Secret](https://github.com/raymondwcs/oauth).
+1. Replace the values of `facebookAuth.clientID` and `facebookAuth.clientSecret` in [server.js](server.js) with a valid [Facebook App ID and App Secret](https://github.com/raymondwcs/oauth).
 
 ## Steps
 1. Build and start docker container images.
