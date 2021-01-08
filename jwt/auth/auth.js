@@ -86,6 +86,7 @@ app.post('/logout', (req, res) => {
     res.json({message: "Logout successful"});
 });
 
+const port = process.env.PORT || 3000
 app.listen(3000, () => {
-    console.log('Authentication service started on port 3000');
+    console.log(`Authentication service started on port ${port}`);
 });

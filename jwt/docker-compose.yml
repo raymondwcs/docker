@@ -18,8 +18,8 @@ services:
     networks:
       - nodeapp-network
 
-  books:
-    container_name: booksApp
+  server:
+    container_name: server
     restart: always
     build: server
     ports:

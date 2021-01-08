@@ -77,6 +77,7 @@ app.post('/books', authenticateJWT, (req, res) => {
     res.send('book added successfully');
 });
 
+const port = process.env.PORT || 4000
 app.listen(4000, () => {
-    console.log('Books service started on port 4000');
+    console.log(`Books service started on port ${port}`);
 });
