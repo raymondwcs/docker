@@ -1,0 +1,32 @@
+version: "2"
+services:
+  auth:
+    container_name: auth
+    restart: always
+    build: auth
+    ports:
+      - "3000:3000"
+    networks:
+      - nodeapp-network
+
+  books:
+    container_name: books
+    restart: always
+    build: books
+    ports:
+      - "4000:4000"
+    networks:
+      - nodeapp-network
+
+  books:
+    container_name: booksApp
+    restart: always
+    build: server
+    ports:
+      - "8099:8099"
+    networks:
+      - nodeapp-network
+
+networks:
+  nodeapp-network:
+    driver: bridge
