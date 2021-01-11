@@ -17,7 +17,13 @@ services:
       - "4000:4000"
     networks:
       - nodeapp-network
-
+ 
+  redis:
+    container_name: redis
+    image: "redis:alpine"
+    networks:
+      - nodeapp-network
+      
   server:
     container_name: server
     restart: always
