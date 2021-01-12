@@ -74,7 +74,7 @@ app.post('/books', authenticateJWT, (req, res) => {
     const book = req.body;
     books.push(book);
 
-    res.send('book added successfully');
+    res.sendStatus(200)
 });
 
 const port = process.env.PORT || 4000

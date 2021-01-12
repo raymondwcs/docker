@@ -15,14 +15,6 @@ services:
     build: books
     ports:
       - "4000:4000"
-    depends_on: 
-      - redis
-    networks:
-      - nodeapp-network
- 
-  redis:
-    container_name: redis
-    image: "redis:alpine"
     networks:
       - nodeapp-network
       
@@ -32,6 +24,9 @@ services:
     build: server
     ports:
       - "8099:8099"
+    depends_on: 
+      - auth
+      - books
     networks:
       - nodeapp-network
 

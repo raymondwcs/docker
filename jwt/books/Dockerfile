@@ -5,4 +5,4 @@ COPY package.json /usr/src/app/
 COPY books*.js /usr/src/app/
 RUN npm install
 EXPOSE 4000
-ENTRYPOINT ["node", "books_redis.js"]
+ENTRYPOINT ["node", "books.js"]

@@ -32,6 +32,10 @@ app.use((req,res,next) => {
 app.set('view engine', 'ejs');
 
 app.get('/', (req,res) => {
+    var userInfo = {}
+    if (req.session.userInfo) {
+        userInfo = req.session.userInfo
+    }
     if (req.session.accessToken && req.session.refreshToken) {
         fetch('http://books:4000/books', {
             method: "GET",
@@ -49,7 +53,7 @@ app.get('/', (req,res) => {
         .then((json) => {
             if (json) {
                 console.log(`books: ${JSON.stringify(json)}`)
-                res.render('books', {books: json})
+                res.render('books', {books: json, userInfo: userInfo})
             }
         })
         .catch(err => console.log(err))
@@ -67,8 +71,10 @@ app.post('/login', (req,res) => {
     })
     .then(response => response.json())
     .then(json => {
+        console.log(json)
         req.session.accessToken = json.accessToken
         req.session.refreshToken = json.refreshToken
+        req.session.userInfo = json.userInfo
         res.redirect('/')
     })
     .catch(err => {
@@ -101,6 +107,7 @@ app.get('/logout', (req,res) => {
 
     req.session.accessToken = null
     req.session.refreshToken = null
+    req.session.userInfo = null
 
     fetch('http://auth:3000/logout', {
         method: "POST",

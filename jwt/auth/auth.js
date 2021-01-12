@@ -46,7 +46,12 @@ app.post('/login', (req, res) => {
 
         refreshTokens.push(refreshToken);
 
+        const userInfo = {}
+        userInfo['username'] = user.username
+        userInfo['userrole'] = user.role
+
         res.json({
+            userInfo,
             accessToken,
             refreshToken
         });
