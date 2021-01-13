@@ -10,11 +10,11 @@ const refreshTokenSecret = 'somerandomstringforrefreshtoken';
 const users = [
     {
         username: 'john',
-        password: 'password123admin',
+        password: 'password123',
         role: 'admin'
     }, {
         username: 'anna',
-        password: 'password123member',
+        password: 'password123',
         role: 'member'
     }
 ]

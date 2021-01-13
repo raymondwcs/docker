@@ -63,6 +63,45 @@ app.get('/', (req,res) => {
     }
 })
 
+app.get('/create', (req,res) => {
+    var userInfo = {}
+    if (req.session.userInfo) {
+        userInfo = req.session.userInfo
+    }
+    if (req.session.accessToken && req.session.refreshToken) {
+        res.status(200).render('create')
+    }
+    else {
+        res.status(200).render('login')
+    }
+})
+
+app.post('/create', (req,res) => {
+    if (req.session.accessToken && req.session.refreshToken) {
+        fetch('http://books:4000/books', {
+            method: "POST",
+            headers: {
+                "authorization": `Bearer: ${req.session.accessToken}`,
+                "Content-type": "application/json; charset=UTF-8"
+            },
+            body: JSON.stringify(req.body)
+        })
+        .then(response => {
+            if (response.status != 200) {
+                return res.redirect('/token')
+                // throw `Fetch cancelled: ${response.status}`
+            } else {
+                //return res.status(200).end('Create was successful')
+                return res.redirect('/')
+            }
+        })
+        .catch(err => console.log(err))
+    }
+    else {
+        res.status(200).render('login')
+    }    
+})
+
 app.post('/login', (req,res) => {
     fetch('http://auth:3000/login', {
         method: "POST",
@@ -83,6 +122,12 @@ app.post('/login', (req,res) => {
 })
 
 app.get('/token', (req,res) => {
+    var origin = req.get('origin');
+    console.log(`Origin: ${origin}`)
+
+    var referer = req.get('referer')
+    console.log(`Referer: ${referer}`)
+
     const body = {}
     body['token'] = req.session.refreshToken
     fetch('http://auth:3000/token', {
@@ -94,7 +139,12 @@ app.get('/token', (req,res) => {
     .then(json => {
         req.session.accessToken = json.accessToken
         console.log(req.session.accessToken)
-        res.redirect('/')
+
+        if (referer.includes('/create')) {
+            res.redirect('/create')
+        } else {
+            res.redirect('/')
+        }
     })
     .catch(err => {
         console.log(err)
