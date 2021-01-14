@@ -32,10 +32,14 @@ app.use((req,res,next) => {
 app.set('view engine', 'ejs');
 
 app.get('/', (req,res) => {
+    /*
     var userInfo = {}
     if (req.session.userInfo) {
         userInfo = req.session.userInfo
     }
+    */
+    const userInfo = (req.session.userInfo) ? req.session.userInfo : {}
+
     if (req.session.accessToken && req.session.refreshToken) {
         fetch('http://books:4000/books', {
             method: "GET",
@@ -43,11 +47,15 @@ app.get('/', (req,res) => {
         })
         .then(response => {
             console.log(`response: ${response.status}, ${response.ok}`)
-            if (response.status != 200) {
-                return res.redirect('/token')
-                // throw `Fetch cancelled: ${response.status}`
-            } else {
-                return(response.json())
+            switch(response.status) {
+                case 403:
+                    return res.redirect('/token')
+                    break;
+                case 200:
+                    return(response.json()) // goto next .then()                   
+                    break;
+                default:
+                    return res.status(500).end(`GET http://books:4000/books Error ${response.status}`)
             }
         })
         .then((json) => {
@@ -87,6 +95,23 @@ app.post('/create', (req,res) => {
             body: JSON.stringify(req.body)
         })
         .then(response => {
+            switch(response.status) {
+                case 200:
+                    return res.status(200).redirect('/')
+                    break;
+                case 403:
+                    /*
+                    save form data for retry
+                    */
+                    req.session.savedFormData = req.body
+                    /*
+                    */
+                    return res.redirect('/token')
+                    break;
+                default:
+                    return res.status(500).end(`POST http://books:4000/books Error ${response.status}`)
+            }
+            /*
             if (response.status != 200) {
                 return res.redirect('/token')
                 // throw `Fetch cancelled: ${response.status}`
@@ -94,6 +119,7 @@ app.post('/create', (req,res) => {
                 //return res.status(200).end('Create was successful')
                 return res.redirect('/')
             }
+            */
         })
         .catch(err => console.log(err))
     }
@@ -122,10 +148,10 @@ app.post('/login', (req,res) => {
 })
 
 app.get('/token', (req,res) => {
-    var origin = req.get('origin');
+    const origin = req.get('origin');
     console.log(`Origin: ${origin}`)
 
-    var referer = req.get('referer')
+    const referer = req.get('referer')
     console.log(`Referer: ${referer}`)
 
     const body = {}
@@ -139,9 +165,34 @@ app.get('/token', (req,res) => {
     .then(json => {
         req.session.accessToken = json.accessToken
         console.log(req.session.accessToken)
-
-        if (referer.includes('/create')) {
-            res.redirect('/create')
+        if (referer.includes('/create') && req.session.savedFormData) {
+            /*
+            restore saved form data, retry create
+            */
+            // res.redirect('/create')
+            const body = req.session.savedFormData
+            req.session.savedFormData = null
+            console.log(`Retry POST http://books:4000/books ${body}`)
+            fetch('http://books:4000/books', {
+                method: "POST",
+                headers: {
+                    "authorization": `Bearer: ${req.session.accessToken}`,
+                    "Content-type": "application/json; charset=UTF-8"
+                },
+                body: JSON.stringify(body)
+            })
+            .then(response => {
+                switch(response.status) {
+                    case 200:
+                        return res.status(200).redirect('/')
+                        break;
+                    default:
+                        return res.status(500).end(`POST http://books:4000/books Error ${response.status}`)
+                }
+            })
+            .catch(err => console.log(err))
+            /*
+            */
         } else {
             res.redirect('/')
         }

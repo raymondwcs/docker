@@ -68,7 +68,8 @@ app.post('/books', authenticateJWT, (req, res) => {
     const { role } = req.user;
 
     if (role !== 'admin') {
-        return res.sendStatus(403);
+        //return res.sendStatus(403);
+        return res.sendStatus(401);
     }
 
     const book = req.body;
