@@ -29,103 +29,91 @@ app.use((req,res,next) => {
     next()
 })
 
+// this must be the last middleware!!!
+app.use((req,res,next) => {
+    if ((req.path.toLowerCase() == '/login') ||
+        (req.session.userInfo && req.session.accessToken && req.session.refreshToken)) {
+        next()
+    }
+    else {
+        res.render('login')
+    }
+})
+
 app.set('view engine', 'ejs');
 
 app.get('/', (req,res) => {
-    /*
-    var userInfo = {}
-    if (req.session.userInfo) {
-        userInfo = req.session.userInfo
-    }
-    */
-    const userInfo = (req.session.userInfo) ? req.session.userInfo : {}
-
-    if (req.session.accessToken && req.session.refreshToken) {
-        fetch('http://books:4000/books', {
-            method: "GET",
-            headers: {"authorization": `Bearer: ${req.session.accessToken}`}
-        })
-        .then(response => {
-            console.log(`response: ${response.status}, ${response.ok}`)
-            switch(response.status) {
-                case 403:
-                    return res.redirect('/token')
-                    break;
-                case 200:
-                    return(response.json()) // goto next .then()                   
-                    break;
-                default:
-                    return res.status(500).end(`GET http://books:4000/books Error ${response.status}`)
-            }
-        })
-        .then((json) => {
-            if (json) {
-                console.log(`books: ${JSON.stringify(json)}`)
-                res.render('books', {books: json, userInfo: userInfo})
-            }
-        })
-        .catch(err => console.log(err))
-    }
-    else {
-        res.status(200).render('login')
-    }
+    fetch('http://books:4000/books', {
+        method: "GET",
+        headers: {"authorization": `Bearer: ${req.session.accessToken}`}
+    })
+    .then(response => {
+        console.log(`response: ${response.status}, ${response.ok}`)
+        switch(response.status) {
+            case 403:
+                return res.redirect('/token')
+                break;
+            case 200:
+                return(response.json()) // goto next .then()                   
+                break;
+            default:
+                return res.status(500).end(`GET http://books:4000/books Error ${response.status}`)
+        }
+    })
+    .then((json) => {
+        if (json) {
+            console.log(`books: ${JSON.stringify(json)}`)
+            res.render('books', {books: json, userInfo: req.session.userInfo})
+        }
+    })
+    .catch(err => console.log(err))
 })
 
 app.get('/create', (req,res) => {
-    var userInfo = {}
-    if (req.session.userInfo) {
-        userInfo = req.session.userInfo
-    }
-    if (req.session.accessToken && req.session.refreshToken) {
-        res.status(200).render('create')
-    }
-    else {
-        res.status(200).render('login')
-    }
+    res.render('create')
 })
 
 app.post('/create', (req,res) => {
-    if (req.session.accessToken && req.session.refreshToken) {
-        fetch('http://books:4000/books', {
-            method: "POST",
-            headers: {
-                "authorization": `Bearer: ${req.session.accessToken}`,
-                "Content-type": "application/json; charset=UTF-8"
-            },
-            body: JSON.stringify(req.body)
-        })
-        .then(response => {
-            switch(response.status) {
-                case 200:
-                    return res.status(200).redirect('/')
-                    break;
-                case 403:
-                    /*
-                    save form data for retry
-                    */
-                    req.session.savedFormData = req.body
-                    /*
-                    */
-                    return res.redirect('/token')
-                    break;
-                default:
-                    return res.status(500).end(`POST http://books:4000/books Error ${response.status}`)
-            }
-            /*
-            if (response.status != 200) {
+    fetch('http://books:4000/books', {
+        method: "POST",
+        headers: {
+            "authorization": `Bearer: ${req.session.accessToken}`,
+            "Content-type": "application/json; charset=UTF-8"
+        },
+        body: JSON.stringify(req.body)
+    })
+    .then(response => {
+        switch(response.status) {
+            case 200:
+                return res.status(200).redirect('/')
+                break;
+            case 403:
+                /*
+                save form data for retry
+                */
+                req.session.savedFormData = req.body
+                /*
+                */
                 return res.redirect('/token')
-                // throw `Fetch cancelled: ${response.status}`
-            } else {
-                //return res.status(200).end('Create was successful')
-                return res.redirect('/')
-            }
-            */
-        })
-        .catch(err => console.log(err))
-    }
-    else {
-        res.status(200).render('login')
-    }    
+                break;
+            default:
+                return res.status(500).end(`POST http://books:4000/books Error ${response.status}`)
+        }
+        /*
+        if (response.status != 200) {
+            return res.redirect('/token')
+            // throw `Fetch cancelled: ${response.status}`
+        } else {
+            //return res.status(200).end('Create was successful')
+            return res.redirect('/')
+        }
+        */
+    })
+    .catch(err => console.log(err))    
+})
+
+app.get('/login', (req,res) => {
+    res.render('login')
 })
 
 app.post('/login', (req,res) => {
