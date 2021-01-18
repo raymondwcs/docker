@@ -62,7 +62,6 @@ app.get('/books', authenticateJWT, (req, res) => {
     console.log(`${req.method}, ${req.path}: ${JSON.stringify(req.query)}`)
     const criteria = (req.criteria) ? req.criteria : {}
     handle_Find(req,res,criteria)
-    // res.status(200).json(books);
 });
 
 app.post('/books', authenticateJWT, (req, res) => {
@@ -73,12 +72,7 @@ app.post('/books', authenticateJWT, (req, res) => {
     if (role !== 'admin') {
         return res.sendStatus(403);
     }
-    /*
-    const book = req.body;
-    books.push(book);
 
-    res.sendStatus(200)
-    */
     const client = new MongoClient(mongourl);
     client.connect((err) => {
         assert.equal(null,err);
@@ -89,7 +83,11 @@ app.post('/books', authenticateJWT, (req, res) => {
             assert.equal(err,null);
             client.close()
             console.log(`POST /books: ${JSON.stringify(results)}`)
-            res.sendStatus(200)
+            if (results.insertedCount == 1) {
+                res.status(200).json({"insertedID": `${results.insertedId}`})
+            } else {
+                res.sendStatus(500)
+            }
         })
     })
 });
