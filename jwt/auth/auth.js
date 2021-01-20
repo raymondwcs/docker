@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 
-app.use((req,res,next) => {
+app.use((req, res, next) => {
     console.log(`${req.method} ${req.path}: ${JSON.stringify(req.body)}`)
     next()
 })
@@ -35,7 +35,7 @@ app.use((req,res,next) => {
 app.post('/login', (req, res) => {
     // read username and password from request body
     const { username, password } = req.body;
-    
+
     // filter user from the users array by username and password
     const user = users.find(u => { return u.username === username && u.password === password });
 
@@ -50,7 +50,7 @@ app.post('/login', (req, res) => {
         userInfo['username'] = user.username
         userInfo['userrole'] = user.role
 
-        res.json({
+        res.status(200).json({
             userInfo,
             accessToken,
             refreshToken
@@ -88,7 +88,7 @@ app.post('/logout', (req, res) => {
     const { token } = req.body;
     refreshTokens = refreshTokens.filter(t => t !== token);
 
-    res.json({message: "Logout successful"});
+    res.json({ message: "Logout successful" });
 });
 
 const port = process.env.PORT || 3000
