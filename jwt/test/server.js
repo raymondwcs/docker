@@ -1,4 +1,5 @@
 // test/server.js
+// docker run -d -it --name node -v $(pwd):/code -w /code --network jwt_nodeapp-network arm64v8/node bash
 
 //const request = require("request");
 const expect = require("chai").expect;
