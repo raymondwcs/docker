@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^8.2.1",
+    "node-fetch": "^2.6.1"
+  }
+}
