@@ -7,7 +7,7 @@ Start all microservices using the instructions in [README.md](../README.md)
 
 ## Steps
 
-1. Start a container for Node.js that connects to the same network of the microservices 
+1. Start a Node.js container, which connects to the same network of the microservices.
 ```
 docker run -it --name node -v $(pwd):/code -w /code --network jwt_nodeapp-network node:alpine bash
 ```
