@@ -1,10 +1,8 @@
 // test/server.js
 // docker run -d -it --name node -v $(pwd):/code -w /code --network jwt_nodeapp-network arm64v8/node bash
 
-//const request = require("request");
 const expect = require("chai").expect
 const fetch = require('node-fetch')
-const ObjectId = require('mongodb').ObjectID;
 
 const authLoginUrl = "http://auth:3000/login"
 const authLogoutUrl = "http://auth:3000/logout"
@@ -84,7 +82,7 @@ describe("Books API - Create", function () {
 
         const newBookTitle = 'testing'
         const newBookAuthor = 'johndole'
-        it("create 1 book", async () => {
+        it("creates 1 book", async () => {
             var body = {}
             body['title'] = newBookTitle
             body['author'] = newBookAuthor
@@ -101,7 +99,7 @@ describe("Books API - Create", function () {
             let response = await res.json()
             expect(response).to.have.property('insertedID')
             newBookId = response.insertedID
-            console.log(newBookId)
+            //console.log(newBookId)
         });
 
         it("returns the new book", async () => {
@@ -110,9 +108,9 @@ describe("Books API - Create", function () {
                 method: "GET",
                 headers: { "authorization": `Bearer: ${accessToken}` }
             })
+            expect(res.status).to.equal(200)
             let response = await res.json()
-            //assert.equal(Object.keys(response).length, 3)
-            console.log(response[0])
+            //console.log(response[0])
             expect(response).to.have.lengthOf(1)
         });
 
