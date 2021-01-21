@@ -2,21 +2,25 @@
 // docker run -d -it --name node -v $(pwd):/code -w /code --network jwt_nodeapp-network arm64v8/node bash
 
 //const request = require("request");
-const expect = require("chai").expect;
-const fetch = require('node-fetch');
-const assert = require('assert');
+const expect = require("chai").expect
+const fetch = require('node-fetch')
+const ObjectId = require('mongodb').ObjectID;
 
-describe("Books API", function () {
+const authLoginUrl = "http://auth:3000/login"
+const authLogoutUrl = "http://auth:3000/logout"
+const booksUrl = "http://books:4000/books"
+/*
+describe("Books API - Read", function () {
 
     describe("Get books", function () {
 
-        const authUrl = "http://auth:3000/login";
-        const booksUrl = "http://books:4000/books";
-        const body = { "username": "john", "password": "password123" }
         var accessToken = "";
+        var refreshToken = "";
 
         it("returns jwt", async () => {
-            let res = await fetch('http://auth:3000/login', {
+            var body = { "username": "john", "password": "password123" }
+
+            let res = await fetch(authLoginUrl, {
                 method: "POST",
                 body: JSON.stringify(body),
                 headers: { "Content-type": "application/json; charset=UTF-8" }
@@ -26,17 +30,102 @@ describe("Books API", function () {
             expect(response).to.have.property('refreshToken')
             expect(response).to.have.property('userInfo')
             accessToken = response.accessToken
-            console.log(accessToken)
+            refreshToken = response.refreshToken
         });
 
         it("returns 3 books", async () => {
-            let res = await fetch('http://books:4000/books', {
+            let res = await fetch(booksUrl, {
                 method: "GET",
                 headers: { "authorization": `Bearer: ${accessToken}` }
             })
             let response = await res.json()
             //assert.equal(Object.keys(response).length, 3)
             expect(response).to.have.lengthOf(3)
+        });
+
+        it("logout", async () => {
+            var body = {}
+            body['token'] = refreshToken
+
+            let res = await fetch(authLogoutUrl, {
+                method: "POST",
+                body: JSON.stringify(body),
+                headers: { "Content-type": "application/json; charset=UTF-8" }
+            })
+            let response = await res.json()
+        });
+    });
+});
+*/
+describe("Books API - Create", function () {
+
+    describe("Create book", function () {
+
+        var accessToken = ''
+        var refreshToken = ''
+        var newBookId = ''
+
+        it("returns jwt", async () => {
+            var body = { "username": "john", "password": "password123" }
+
+            let res = await fetch(authLoginUrl, {
+                method: "POST",
+                body: JSON.stringify(body),
+                headers: { "Content-type": "application/json; charset=UTF-8" }
+            })
+            expect(res.status).to.equal(200)
+            let response = await res.json()
+            expect(response).to.have.property('accessToken')
+            expect(response).to.have.property('refreshToken')
+            expect(response).to.have.property('userInfo')
+            accessToken = response.accessToken
+            refreshToken = response.refreshToken
+        });
+
+        const newBookTitle = 'testing'
+        const newBookAuthor = 'johndole'
+        it("create 1 book", async () => {
+            var body = {}
+            body['title'] = newBookTitle
+            body['author'] = newBookAuthor
+
+            let res = await fetch(booksUrl, {
+                method: "POST",
+                body: JSON.stringify(body),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8",
+                    "authorization": `Bearer: ${accessToken}`
+                }
+            })
+            expect(res.status).to.equal(200)
+            let response = await res.json()
+            expect(response).to.have.property('insertedID')
+            newBookId = response.insertedID
+            console.log(newBookId)
+        });
+
+        it("returns the new book", async () => {
+            //let res = await fetch(`${booksUrl}?title=${newBookTitle}&author=${newBookAuthor}`, {
+            let res = await fetch(`${booksUrl}?_id=${newBookId}`, {
+                method: "GET",
+                headers: { "authorization": `Bearer: ${accessToken}` }
+            })
+            let response = await res.json()
+            //assert.equal(Object.keys(response).length, 3)
+            console.log(response[0])
+            expect(response).to.have.lengthOf(1)
+        });
+
+        it("logout", async () => {
+            var body = {}
+            body['token'] = refreshToken
+
+            let res = await fetch(authLogoutUrl, {
+                method: "POST",
+                body: JSON.stringify(body),
+                headers: { "Content-type": "application/json; charset=UTF-8" }
+            })
+            let response = await res.json()
         });
     });
 });
