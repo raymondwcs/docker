@@ -82,7 +82,7 @@ describe("Books API - Create", function () {
 
         const newBookTitle = 'testing'
         const newBookAuthor = 'johndole'
-        it("creates 1 book", async () => {
+        it("creates a new book", async () => {
             var body = {}
             body['title'] = newBookTitle
             body['author'] = newBookAuthor
@@ -102,7 +102,7 @@ describe("Books API - Create", function () {
             //console.log(newBookId)
         });
 
-        it("returns the new book", async () => {
+        it("reads the new book", async () => {
             //let res = await fetch(`${booksUrl}?title=${newBookTitle}&author=${newBookAuthor}`, {
             let res = await fetch(`${booksUrl}?_id=${newBookId}`, {
                 method: "GET",
