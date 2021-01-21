@@ -1,5 +1,5 @@
 # Mocha Test Cases
-Sample Behavior Driven Development (BDD) test cases written using [Mocha](https://mochajs.org) and [Chai Assertion Library](https://www.chaijs.com) for the `books` APIs.
+Sample behavior driven development (BDD) test cases written using [Mocha](https://mochajs.org) and [Chai Assertion Library](https://www.chaijs.com) for the `books` APIs.
 
 ## Preparation
 
