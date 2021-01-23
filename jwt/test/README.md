@@ -7,15 +7,11 @@ Start all microservices (see [README.md](../README.md) for details)
 
 ## Steps
 
-1. Start a Node.js container, which connects to the same network of the microservices.
+1. Build Docker image
 ```
-docker run -it --name node -v $(pwd):/code -w /code --network jwt_nodeapp-network node:alpine bash
+docker build . -t jwt_test
 ```
-2. Install dependencies 
+2. Start container, attach it to the same network of the microservices, and run the test cases 
 ```
-npm install
-```
-3. Run [server.js](server.js)
-```
-./node_modules/mocha/bin/mocha server.js
+docker run --rm --network jwt_nodeapp-network jwt_test
 ```
