@@ -3,7 +3,7 @@ Sample behavior driven development (BDD) test cases written using [Mocha](https:
 
 ## Preparation
 
-Start all microservices using the instructions in [README.md](../README.md)
+Start all microservices (see [README.md](../README.md) for details)
 
 ## Steps
 
