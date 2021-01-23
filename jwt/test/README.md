@@ -11,7 +11,7 @@ Start all microservices (see [README.md](../README.md) for details)
 ```
 docker build . -t jwt_test
 ```
-2. Start container, attach it to the same network of the microservices, and run the test cases 
+2. Start container on the same network of the microservices and run the test cases 
 ```
 docker run --rm --network jwt_nodeapp-network jwt_test
 ```
