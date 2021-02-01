@@ -46,7 +46,7 @@ app.post('/login', (req, res) => {
 
         refreshTokens.push(refreshToken);
 
-        const userInfo = {}
+        let userInfo = {}
         userInfo['username'] = user.username
         userInfo['userrole'] = user.role
 
@@ -88,7 +88,7 @@ app.post('/logout', (req, res) => {
     const { token } = req.body;
     refreshTokens = refreshTokens.filter(t => t !== token);
 
-    res.json({ message: "Logout successful" });
+    res.status(200).json({ message: "Logout successful" });
 });
 
 const port = process.env.PORT || 3000
