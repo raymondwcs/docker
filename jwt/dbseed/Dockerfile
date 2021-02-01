@@ -1,4 +1,4 @@
-FROM mongo
+FROM mongo:4
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 COPY books.json /usr/src/app/

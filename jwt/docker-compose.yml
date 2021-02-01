@@ -7,23 +7,23 @@ services:
     ports:
       - "3000:3000"
     depends_on: 
-      - redis
+      - redisseed
     networks:
       - nodeapp-network
 
   redis:
     container_name: redis
+    image: redis
     restart: always
-    build: redis
     ports:
       - "6397:6397"
     networks:
       - nodeapp-network
 
-  rediseed:
-    build: redis
+  redisseed:
+    build: redisseed
     depends_on:
-      - dbseed
+      - redis
     networks:
       - nodeapp-network
 

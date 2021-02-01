@@ -22,10 +22,8 @@ describe("auth", function () {
             console.error(error);
             return res.status(500);
         });
-        client.hset('john', 'password', 'password123');
-        client.hset('john', 'role', 'admin');
-        client.hset('anna', 'password', 'password123');
-        client.hset('anna', 'role', 'member');
+        client.hset('x', 'password', 'password123');
+        client.hset('x', 'role', 'admin');
         client.quit()
     });
 
@@ -35,13 +33,12 @@ describe("auth", function () {
             console.error(error);
             return res.status(500);
         });
-        client.del('john')
-        client.del('anna')
+        client.del('x')
         client.quit()
     })
 
     it("returns jwt", function (done) {
-        const body = { "username": "john", "password": "password123" }
+        const body = { "username": "x", "password": "password123" }
         fetch(authLoginUrl, {
             method: "POST",
             body: JSON.stringify(body),

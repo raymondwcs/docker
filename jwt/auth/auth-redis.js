@@ -41,7 +41,7 @@ app.post('/login', (req, res) => {
     // filter user from the users array by username and password
     // const user = users.find(u => { return u.username === username && u.password === password });
 
-    const client = redis.createClient();
+    const client = redis.createClient({ host: 'redis' });
     client.on("error", function (error) {
         console.error(error);
         return res.status(500);
@@ -77,7 +77,7 @@ app.post('/login', (req, res) => {
                 refreshToken
             });
         } else {
-            res.send('Username or password incorrect');
+            res.status(403).json({ error: 'Username or password incorrect' });
         }
         //client.quit();
     });
@@ -95,7 +95,7 @@ app.post('/token', (req, res) => {
         return res.sendStatus(403);
     }
     */
-    const client = redis.createClient();
+    const client = redis.createClient({ host: 'redis' });
     client.on("error", function (error) {
         console.error(error);
         return res.status(500);
@@ -129,7 +129,7 @@ app.post('/logout', (req, res) => {
     const { token } = req.body;
     //refreshTokens = refreshTokens.filter(t => t !== token);
 
-    const client = redis.createClient();
+    const client = redis.createClient({ host: 'redis' });
     client.on("error", function (error) {
         console.error(error);
         return res.status(500);
