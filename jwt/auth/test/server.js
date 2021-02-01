@@ -11,7 +11,6 @@ const authLoginUrl = "http://127.0.0.1:3000/login"
 const authLogoutUrl = "http://127.0.0.1:3000/logout"
 const authRefreshTokentUrl = "http://127.0.0.1:3000/token"
 
-
 describe("auth", function () {
     var accessToken = ''
     var refreshToken = ''
