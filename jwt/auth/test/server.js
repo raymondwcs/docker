@@ -7,6 +7,7 @@ const redis = require("redis");
 
 // const authLoginUrl = "http://auth:3000/login"
 // const authLogoutUrl = "http://auth:3000/logout"
+// const authRefreshTokentUrl = "http://auth:3000/token"
 const authLoginUrl = "http://127.0.0.1:3000/login"
 const authLogoutUrl = "http://127.0.0.1:3000/logout"
 const authRefreshTokentUrl = "http://127.0.0.1:3000/token"
