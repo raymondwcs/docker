@@ -6,6 +6,24 @@ services:
     build: auth
     ports:
       - "3000:3000"
+    depends_on: 
+      - redis
+    networks:
+      - nodeapp-network
+
+  redis:
+    container_name: redis
+    restart: always
+    build: redis
+    ports:
+      - "6397:6397"
+    networks:
+      - nodeapp-network
+
+  rediseed:
+    build: redis
+    depends_on:
+      - dbseed
     networks:
       - nodeapp-network
 
