@@ -1,17 +1,22 @@
 # Mocha Test Cases
-Sample behavior driven development (BDD) test cases written using [Mocha](https://mochajs.org) and [Chai Assertion Library](https://www.chaijs.com) for the [books](../books/books_mongodb.js) APIs.
-
-## Preparation
-
-Start all microservices (see [README.md](../README.md) for details)
+Sample behavior driven development (BDD) test cases written using [Mocha](https://mochajs.org) and [Chai Assertion Library](https://www.chaijs.com) for the [auth](../auth/auth-redis.js) services.
 
 ## Steps
-
-1. Build Docker image
+1. Create a Docker bridge network (`jwt_nodeapp-network`) for the containers.
 ```
-docker build . -t jwt_test
+docker network create jwt_nodeapp-network
 ```
-2. Start container on the same network of the microservices and run the test cases 
+2. Run `redis`
 ```
-docker run --rm --network jwt_nodeapp-network jwt_test
+docker run --rm --network jwt_nodeapp-network --name redis --hostname redis redis
+```
+3. Build and run the [`auth` docker image](../Dockerfile)
+```
+cd ..
+docker build . -t jwt_auth
+docker run --rm --network jwt_nodeapp-network --hostname auth --init jwt_auth
+```
+4. Run the Mocha test script
+```
+docker run --rm -it -v $(pwd):/usr/src/app -w /usr/src/app --network=jwt_nodeapp-network --name node --init raymondwcs/node ./node_modules/mocha/bin/mocha server.js
 ```

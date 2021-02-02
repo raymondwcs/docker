@@ -44,7 +44,7 @@ app.post('/login', (req, res) => {
     const client = redis.createClient({ host: 'redis' });
     client.on("error", function (error) {
         console.error(error);
-        return res.status(500);
+        return res.status(500).json(error);
     });
 
     client.hgetall(username, function (err, value) {
@@ -98,7 +98,7 @@ app.post('/token', (req, res) => {
     const client = redis.createClient({ host: 'redis' });
     client.on("error", function (error) {
         console.error(error);
-        return res.status(500);
+        return res.status(500).json(error);
     });
     /*
     client.smembers("refreshTokens", (err, reply) => {
@@ -132,7 +132,7 @@ app.post('/logout', (req, res) => {
     const client = redis.createClient({ host: 'redis' });
     client.on("error", function (error) {
         console.error(error);
-        return res.status(500);
+        return res.status(500).json(error);
     });
     client.srem("refreshTokens", token);
     res.status(200).json({ message: "Logout successful" });
