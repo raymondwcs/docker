@@ -17,6 +17,12 @@ docker build . -t jwt_auth
 docker run --rm --network jwt_nodeapp-network --hostname auth --init jwt_auth
 ```
 4. Run the Mocha test script
+Method 1 - Running the test script directly
 ```
 docker run --rm -it -v $(pwd):/usr/src/app -w /usr/src/app --network=jwt_nodeapp-network --name node --init raymondwcs/node ./node_modules/mocha/bin/mocha server.js
+```
+Method 2 - Dockerizing the test script 
+```
+docker build . -t auth_test
+docker run --rm --network jwt_nodeapp-network --name auth_test --init auth_test
 ```
