@@ -7,7 +7,7 @@ Start all microservices (see [README.md](../README.md) for details)
 
 ## Steps
 
-1. Build Docker image
+1. Containerize the Mocha test scripts
 ```
 docker build . -t jwt_test
 ```
