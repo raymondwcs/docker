@@ -1,3 +1,6 @@
 [submodule "toromannumeral"]
 	path = toromannumeral
 	url = https://github.com/raymondwcs/toromannumeral
+[submodule "toRomanNumeral"]
+	path = toRomanNumeral
+	url = http://github.com/raymondwcs/toRomanNumeral
