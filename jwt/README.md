@@ -18,8 +18,12 @@ This tutorial demonstrates deployment of microservices using Docker Compose.  Se
 ```
 docker-compose up -d
 ```
-2. Run the app by opening `localhost:8099` in your web browser.
-3. Shutdown the containers when you're done.
+2. Check service status
+```
+docker-compose ps
+```
+3. Run the app by opening `localhost:8099` in your web browser.
+4. Shutdown the containers when you're done.
 ```
 docker-compose down
 ```
